@@ -1,0 +1,36 @@
+{
+    "decision": "CarDamageResponsability",
+    "title": "Car Damage Responsability",
+    "intents": [
+        {
+            "name": "MembershipLevel",
+            "type": "tMembershipLevel",
+            "fn_name": "membership_level",
+            "values": [
+                { "value": "gold" },
+                { "value": "silver" },
+                { "value": "none" }
+            ]
+        },
+        {
+            "name": "Responsibility",
+            "type": "tResponsibility",
+            "fn_name": "responsibility",
+            "values": [
+                { "value": "driver" },
+                { "value": "third party" }
+            ]
+        },
+        {
+            "name": "DamageTypes",
+            "type": "tDamageTypes",
+            "fn_name": "damage_types",
+            "values": [
+                { "value": "tires" },
+                { "value": "glass" },
+                { "value": "body" },
+                { "value": "engine" }
+            ]
+        }
+    ]
+}

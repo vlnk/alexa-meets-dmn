@@ -50,6 +50,14 @@ if __name__ == '__main__':
 
     parser = DMNParser(args.dmn_path[0])
 
+    file_template = open('template_backend.mustache', 'r')
+    template = file_template.read()
+    file_template.close()
+
     for decision in parser.decisions:
-        generator = SpeechGenerator(decision)
+        generator = SpeechGenerator(decision, template)
         generator.write_skills()
+        generator.write_custom_slot_types()
+        generator.write_utterances()
+        generator.write_decision_template()
+        generator.write_script()
