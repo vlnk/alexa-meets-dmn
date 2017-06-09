@@ -1,0 +1,43 @@
+import logging
+from random import randint
+from flask import Flask, render_template
+from flask_ask import Ask, statement, question, session
+
+app = Flask(__name__)
+ask = Ask(app, "/")
+logging.getLogger("flask_ask").setLevel(logging.DEBUG)
+
+
+intents = [{{#intents}}'{{name}}',{{/intents}}]
+input_responses = {}
+intent_index = 0
+
+@ask.launch
+def new_decision():
+    welcome_msg = render_template('decision', decision="{{title}}")
+    return question(welcome_msg)
+
+def next_intent():
+    if intent_index != len(intents):
+        return question(render_template(intents[intent_index]))
+    else:
+        # calculate output
+        return statement('Sorry this part is not implemented')
+
+@ask.intent("{{decision}}")
+def assert_intent():
+    return next_intent()
+
+{{#intents}}
+@ask.intent("{{name}}", convert={'{{type}}': str})
+def assert_{{fn_name}}({{type}}):
+    global intent_index
+    if {{type}} not in [{{#values}}'{{value}}',{{/values}}]:
+        return question(render_template(intents[intent_index]))
+    else:
+        intent_index += 1
+        return next_intent()
+{{/intents}}
+
+if __name__ == '__main__':
+    app.run(debug=True)

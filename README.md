@@ -42,4 +42,5 @@ Alexa Meets DMN
 + [Flask-Ask](https://alexatutorial.com/flask-ask/)
 
 #### Others
-+ [https://learnxinyminutes.com/docs/python/](https://learnxinyminutes.com/docs/python/)
++ [Learn Python in Y minutes](https://learnxinyminutes.com/docs/python/)
++ [NGROCK](https://ngrok.com/)

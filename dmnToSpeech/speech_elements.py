@@ -13,6 +13,28 @@ class SpeechElement:
     def speechType(self):
         return self.__speechType
 
+    @property
+    def title(self):
+        title = ''
+        for i, letter in enumerate(self.name):
+            if (letter.isupper() and i != 0):
+                title += ' '
+
+            title += letter
+
+        return title
+
+    @property
+    def fn_name(self):
+        fn_name = ''
+        for i, letter in enumerate(self.name):
+            if (letter.isupper() and i != 0):
+                fn_name += '_'
+
+            fn_name += letter.lower()
+
+        return fn_name
+
 class Decision(SpeechElement):
     def __init__(self, name):
         SpeechElement.__init__(self, name, 'intent')
