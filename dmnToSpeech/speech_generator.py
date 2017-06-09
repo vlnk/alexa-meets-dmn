@@ -14,11 +14,34 @@ class SpeechGenerator(object):
 
         return skill
 
+    def generate_decision_utterance(self):
+        utterances = {}
+        decision = self.__decision.name
+
+        utterance = []
+        utterance.append('yes')
+        utterance.append('sure')
+
+        utterances[decision] = utterance
+        for input_value in self.__decision.inputs:
+            utterances[input_value.name] = self.generate_input_utterance(input_value)
+
+        return utterances
+
+    def generate_input_utterance(self, input_value):
+        utterance = []
+        name = input_value.name
+
+        for item_definition in input_value.items:
+            utterance.append('{' + item_definition.name + '}')
+
+        return utterance
+
     def generate_input_skill(self, input_value):
         skill = {}
         skill[input_value.speechType] = input_value.name
-        slots = []
 
+        slots = []
         for item in input_value.items:
             slots.append(self.generate_item_definition_slot(item))
 
@@ -46,13 +69,39 @@ class SpeechGenerator(object):
             'intents': intents
         }
 
-    def write_skills(self):
-        if not os.path.exists('build'):
-            os.makedirs('build')
+    def check_speech_folder(self):
+        if not os.path.exists('speech'):
+            os.makedirs('speech')
 
-        file = open('build/skills.json','w')
+    def write_skills(self):
+        self.check_speech_folder()
+
+        file = open('speech/skills.json','w')
         file.write(json.dumps(self.generate_skills()))
         file.close()
 
-    def generate_custom_slot_types(self):
-        pass
+    def write_custom_slot_types(self):
+        self.check_speech_folder()
+
+        for type_key, slot_types in self.__custom_slots.items():
+            file = open('speech/' + type_key + '.txt','w')
+
+            for value in slot_types:
+                file.write(value)
+                file.write('\n')
+
+            file.close()
+
+    def write_utterances(self):
+        self.check_speech_folder()
+        utterances = self.generate_decision_utterance()
+        file = open('speech/utterances.txt','w')
+
+        for intent, utterance in utterances.items():
+            for sentance in utterance:
+                file.write(intent + ' ' + sentance)
+                file.write('\n')
+
+            file.write('\n')
+
+        file.close()

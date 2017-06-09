@@ -53,3 +53,5 @@ if __name__ == '__main__':
     for decision in parser.decisions:
         generator = SpeechGenerator(decision)
         generator.write_skills()
+        generator.write_custom_slot_types()
+        generator.write_utterances()
